@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper, faAddressBook, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
+import BasicModal from "../../components/Modals/BasicModal";
+import SignUpForm from "../../components/Modals/SignUpForm";
 import FaceLogo from "../../assets/face.png";
 import People from "../../assets/people.jpg";
 import "./WelcomePage.scss";
-
+ 
 export default function WelcomePage() {
 
+    const [showModal, setShowModal] = useState(false);
+    const [contentModal, setContentModal] = useState (null);
+    const openModal = content => {
+        setShowModal(true);
+        setContentModal(content);
+    }
+
     return(
-        <Container className="welcome-page" fluid>
-            <Row>
-                <PanelIzquierdo />
-                <PanelDerecho />
-            </Row>
-        </Container>
+        <>
+            <Container className="welcome-page" fluid>
+                <Row>
+                    <PanelIzquierdo />
+                    <PanelDerecho openModal={openModal} setShowModal={setShowModal} />
+                </Row>
+            </Container>
+            <BasicModal show={showModal} setShow={setShowModal}>
+                {contentModal}
+            </BasicModal>
+        </>
     );
 }
 
@@ -42,15 +56,27 @@ function PanelIzquierdo(){
     );
 }
 
-function PanelDerecho(){
+function PanelDerecho(props){
+    
+    const {openModal, setShowModal} = props;
     return(
         <Col className="welcome-page_right" xs={6}>
             <img src={FaceLogo} alt="FaceLogo" height={150}/>
             <div>
                 <h3>Sign Up to R2R Social</h3>
                 <h4>It's quick and easy</h4>
-                <Button variant="warning">Sign Up</Button>
-                <Button variant="outline-warning">Log In</Button>
+                <Button 
+                    variant="warning"
+                    onClick={ ()=> openModal(<SignUpForm setShowModal={ setShowModal } />) }
+                >
+                    Sign Up
+                </Button>
+                <Button 
+                    variant="outline-warning"
+                    onClick={ ()=> openModal(<h2>Sign In</h2>) }
+                >
+                    Log In
+                </Button>
             </div>
         </Col>
     );
