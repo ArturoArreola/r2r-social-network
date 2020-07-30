@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper, faAddressBook, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import BasicModal from "../../components/Modals/BasicModal";
 import SignUpForm from "../../components/Modals/SignUpForm";
+import SignInForm from "../../components/Modals/SignInForm";
 import FaceLogo from "../../assets/face.png";
 import People from "../../assets/people.jpg";
 import "./WelcomePage.scss";
  
-export default function WelcomePage() {
+export default function WelcomePage(props) {
 
+    const { setRefreshCheckLogin } = props;
     const [showModal, setShowModal] = useState(false);
     const [contentModal, setContentModal] = useState (null);
     const openModal = content => {
@@ -22,7 +24,11 @@ export default function WelcomePage() {
             <Container className="welcome-page" fluid>
                 <Row>
                     <PanelIzquierdo />
-                    <PanelDerecho openModal={openModal} setShowModal={setShowModal} />
+                    <PanelDerecho
+                        openModal={ openModal }
+                        setShowModal={ setShowModal }
+                        setRefreshCheckLogin={ setRefreshCheckLogin }
+                    />
                 </Row>
             </Container>
             <BasicModal show={showModal} setShow={setShowModal}>
@@ -58,7 +64,7 @@ function PanelIzquierdo(){
 
 function PanelDerecho(props){
     
-    const {openModal, setShowModal} = props;
+    const {openModal, setShowModal, setRefreshCheckLogin} = props;
     return(
         <Col className="welcome-page_right" xs={6}>
             <img src={FaceLogo} alt="FaceLogo" height={150}/>
@@ -73,7 +79,7 @@ function PanelDerecho(props){
                 </Button>
                 <Button 
                     variant="outline-warning"
-                    onClick={ ()=> openModal(<h2>Sign In</h2>) }
+                    onClick={ ()=> openModal(<SignInForm setShowModal={ setShowModal } setRefreshCheckLogin={ setRefreshCheckLogin }/>) }
                 >
                     Log In
                 </Button>
