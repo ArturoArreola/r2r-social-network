@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
+import SignInSide from './pages/MaterialPage/MaterialPage';
 import { ToastContainer } from 'react-toastify';
 import { AuthContext } from "./utils/context";
 import { isUserLoggedInApi } from './api/auth';
@@ -21,7 +22,7 @@ export default function App() {
     return(
         <AuthContext.Provider value={user}>
             {user ?
-                (<h1>Logueado</h1>) :
+                (<div><SignInSide/></div>) :
                 ( <div>
                     <WelcomePage setRefreshCheckLogin={setRefreshCheckLogin}/>
                   </div>
